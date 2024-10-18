@@ -107,12 +107,13 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    lCorrect = m_drivetrain.getLeftDistanceInch();
-    rCorrect = m_drivetrain.getRightDistanceInch();
-    double red = m_drivetrain.getLeftDistanceInch();
-    double blue = m_drivetrain.getRightDistanceInch();
-    m_drivetrain.tankDrive(-Xbox.getLeftY()-lCorrect, -Xbox.getLeftY()-rCorrect);
-    m_drivetrain.arcadeDrive(0,-Xbox.getRightX());
+    m_drivetrain.arcadeDrive(-Xbox.getLeftY(),-Xbox.getRightX());
+    // lCorrect = m_drivetrain.getLeftDistanceInch();
+    // rCorrect = m_drivetrain.getRightDistanceInch();
+    // double red = m_drivetrain.getLeftDistanceInch();
+    // double blue = m_drivetrain.getRightDistanceInch();
+    // m_drivetrain.tankDrive(-Xbox.getLeftY()-lCorrect, -Xbox.getLeftY()-rCorrect);
+    // m_drivetrain.arcadeDrive(0,-Xbox.getRightX());
     // if (Xbox.getAButton() == true ) {
     //   if (m_drivetrain.getLeftDistanceInch() > m_drivetrain.getRightDistanceInch()) {
 
