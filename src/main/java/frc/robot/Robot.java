@@ -30,8 +30,10 @@ public class Robot extends TimedRobot {
   private final XRPDrivetrain m_drivetrain = new XRPDrivetrain();
 
   private final Timer m_timer = new Timer();
-  private double lCorrect;
-  private double rCorrect;
+  private double lCorrect=0;
+  private double rCorrect=0;
+  private double ldist = m_drivetrain.getLeftDistanceInch();
+  private double rdist = m_drivetrain.getRightDistanceInch(); 
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -80,18 +82,28 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
       case kCustomAuto:
+        if (ldist < rdist) {
+          rCorrect += .1;
+          lCorrect -= .1;
+        }
+        if (ldist > rdist) {
+          lCorrect += .1;
+          rCorrect -= .1;
+        }
+        m_drivetrain.tankDrive(1-lCorrect, 1-rCorrect);
         // Put custom auto code here
-        if (m_timer.get() < 5) {
-          m_drivetrain.arcadeDrive(1.0, 0);
-        }
-        else {
-          if (m_timer.get() > 5 & m_timer.get() < 10) {
-          m_drivetrain.arcadeDrive(-1.0, 0);
-          }
-          else {
-            m_drivetrain.arcadeDrive(0, 0);
-          }
-        }
+
+        // if (m_timer.get() < 5) {
+        //   m_drivetrain.arcadeDrive(1.0, 0);
+        // }
+        // else {
+        //   if (m_timer.get() > 5 & m_timer.get() < 10) {
+        //   m_drivetrain.arcadeDrive(-1.0, 0);
+        //   }
+        //   else {
+        //     m_drivetrain.arcadeDrive(0, 0);
+        //   }
+        // }
         break;
       case kDefaultAuto:
       default:
@@ -107,7 +119,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    m_drivetrain.arcadeDrive(-Xbox.getLeftY(),-Xbox.getRightX());
     // lCorrect = m_drivetrain.getLeftDistanceInch();
     // rCorrect = m_drivetrain.getRightDistanceInch();
     // double red = m_drivetrain.getLeftDistanceInch();
