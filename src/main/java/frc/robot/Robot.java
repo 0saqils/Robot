@@ -8,7 +8,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
+// import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.xrp.XRPGyro;
@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.xrp.XRPGyro;
  */
 public class Robot extends TimedRobot {
   // private XboxController Xbox = new XboxController(0);
-  // private XRPGyro Gyro = new XRPGyro();
+  private XRPGyro Gyro = new XRPGyro();
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -74,6 +74,7 @@ public class Robot extends TimedRobot {
     m_drivetrain.resetEncoders();
     m_timer.reset();
     m_timer.start();
+    Gyro.reset();
   }
 
   /** This function is called periodically during autonomous. */
@@ -81,13 +82,19 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
       case kCustomAuto:
-        if (m_drivetrain.getLeftDistanceInch() < m_drivetrain.getRightDistanceInch()) {
-          rCorrect += .005;
-          lCorrect -= .005;
+        if (Gyro.getAngle() >= -1) {
+          rCorrect += .001;
+          lCorrect -= .001;
         }
-        if (m_drivetrain.getLeftDistanceInch() > m_drivetrain.getRightDistanceInch()) {
-          lCorrect += .005;
-          rCorrect -= .005;
+        else {
+
+        }
+        if (Gyro.getAngle() <= 1) {
+          lCorrect += .001;
+          rCorrect -= .001;
+        }
+        else {
+
         }
         m_drivetrain.tankDrive(1-lCorrect, 1-rCorrect);
         // Put custom auto code here
