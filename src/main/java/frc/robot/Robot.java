@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import java.io.ObjectInputStream.GetField;
+// import java.io.ObjectInputStream.GetField;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -20,8 +20,8 @@ import edu.wpi.first.wpilibj.xrp.XRPGyro;
  * project.
  */
 public class Robot extends TimedRobot {
-  private XboxController Xbox = new XboxController(0);
-  private XRPGyro Gyro = new XRPGyro();
+  // private XboxController Xbox = new XboxController(0);
+  // private XRPGyro Gyro = new XRPGyro();
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -32,8 +32,7 @@ public class Robot extends TimedRobot {
   private final Timer m_timer = new Timer();
   private double lCorrect=0;
   private double rCorrect=0;
-  private double ldist = m_drivetrain.getLeftDistanceInch();
-  private double rdist = m_drivetrain.getRightDistanceInch(); 
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -82,13 +81,13 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
       case kCustomAuto:
-        if (ldist < rdist) {
-          rCorrect += .1;
-          lCorrect -= .1;
+        if (m_drivetrain.getLeftDistanceInch() < m_drivetrain.getRightDistanceInch()) {
+          rCorrect += .005;
+          lCorrect -= .005;
         }
-        if (ldist > rdist) {
-          lCorrect += .1;
-          rCorrect -= .1;
+        if (m_drivetrain.getLeftDistanceInch() > m_drivetrain.getRightDistanceInch()) {
+          lCorrect += .005;
+          rCorrect -= .005;
         }
         m_drivetrain.tankDrive(1-lCorrect, 1-rCorrect);
         // Put custom auto code here
